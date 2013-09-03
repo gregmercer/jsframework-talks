@@ -31,7 +31,7 @@ http://localhost:4730
 Basic routing, data: server-talks/app-2.js
 create app-2.js
 run your node server
-node app-2.js
+node app-2.js 
 
 New route for random quote: server-talks/app-3.js
 create app-3.js
