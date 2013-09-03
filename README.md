@@ -23,7 +23,7 @@ create new package.json file with these lines:
   }
 }
 npm install express
-(this creates the node_modules folder in first app)
+(this creates the node_modules folder in firstapp)
 create app-1.js 
 run your node server
 node app-1.js
