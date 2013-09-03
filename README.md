@@ -4,7 +4,7 @@ backbone-talks
 Learning Backbone.js one step at a time.
 
 Installing node
-http://nodejs.org/ 
+http://nodejs.org/
 click on install button
 
 Creating your first app: firstapp/app-1.js
