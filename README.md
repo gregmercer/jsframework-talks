@@ -184,5 +184,31 @@ it should show this:
 "hello from app-7.js"
 ```
 
-
+Displaying all quotes from mongo: server-talks/app-8.js
+```
+create app-8.js
+run your node server
+node app-8.js
+open your browser to:
+http://localhost:4730/
+it should show this: 
+[
+  {
+    "author": "Audrey Hepburn",
+    "text": "Nothing is impossible, the word itself says 'I'm possible'!",
+    "year": 2011,
+    "hasCreditCookie": true,
+    "_id": "5225e29a88d525cfde000001",
+    "__v": 0
+  },
+  {
+    "author": "Walt Disney",
+    "text": "You may not realize it when it happens, but a kick in the teeth may be the best thing in the world for you",
+    "year": 2012,
+    "hasCreditCookie": true,
+    "_id": "5225e29a88d525cfde000002",
+    "__v": 0
+  }
+]
+```
 
