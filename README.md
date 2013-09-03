@@ -87,3 +87,44 @@ Change method to: 'DELETE'
 click send… should see 200 OK
 check if a quote was deleted (should only have 3 quotes now)
 ```
+
+Installing Homebrew - to install mongodb
+```
+ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+brew doctor
+```
+
+Installing mongodb with Brew command
+```
+brew install mongodb
+<when brew ends with will tell you the directory where mondodb was installed>
+cd /usr/local/Cellar/mongodb/2.4.6 
+launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
+sudo chown macgmercer:everyone /usr/local/bin/brew
+brew info mongodb
+cd /usr/local/opt/mongodb
+cd /data/db
+chmod 777 for all of /data and /data/db
+```
+
+Running mongod
+```
+/usr/local/opt/mongodb/mongod
+``` 
+ 
+Running mongo shell
+```
+gregs-mac:~$ mongo
+MongoDB shell version: 2.4.6
+connecting to: test
+```
+
+mongo shell commands - where quotes is a collection in the test db
+```
+> show databases
+> use test
+> show collections
+> db.quotes.find({})
+> exit
+```
