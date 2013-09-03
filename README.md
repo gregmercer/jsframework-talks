@@ -128,3 +128,27 @@ mongo shell commands - where quotes is a collection in the test database
 > db.quotes.find({})
 > exit
 ```
+
+Create the servertalk database in mongo
+```
+gregs-mac:server-talks$ mongo --eval "db.getSiblingDB('servertalk').addUser('root', 'root');"
+MongoDB shell version: 2.4.6
+connecting to: test
+{
+	"user" : "root",
+	"readOnly" : false,
+	"pwd" : "2a8025f0885adad5a8ce0044070032b3",
+	"_id" : ObjectId("5225e1a1d2c9b3f14fe70b81")
+}
+```
+
+Check that the servertalk database exists in mongo
+```
+gregs-mac:server-talks$ mongo
+MongoDB shell version: 2.4.6
+connecting to: test
+> show databases
+local	0.078125GB
+servertalk	0.203125GB
+test	0.203125GB
+```
