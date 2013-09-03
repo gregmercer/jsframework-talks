@@ -160,7 +160,7 @@ gregs-mac:server-talks$ npm install mongoose
 create app-7.js
 run your node server
 node app-7.js
-you should see something like when the app starts:
+you should see something like this when the app starts:
 gregs-mac:server-talks$ node app-7.js
 'numQuotes = 0'
 'adding quotes'
