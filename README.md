@@ -152,3 +152,31 @@ local	0.078125GB
 servertalk	0.203125GB
 test	0.203125GB
 ```
+
+Add connection to mongodb: server-talks/app-7.js
+```
+install mongoose module
+gregs-mac:server-talks$ npm install mongoose
+create app-7.js
+run your node server
+node app-7.js
+you should see something like when the app starts:
+gregs-mac:server-talks$ node app-7.js
+'numQuotes = 0'
+'adding quotes'
+'index = 0'
+'index = 1'
+{ __v: 0,
+  author: 'Audrey Hepburn',
+  text: 'Nothing is impossible, the word itself says \'I\'m possible\'!',
+  year: 2011,
+  hasCreditCookie: true,
+  _id: 5225e29a88d525cfde000001 }
+{ __v: 0,
+  author: 'Walt Disney',
+  text: 'You may not realize it when it happens, but a kick in the teeth may be the best thing in the world for you',
+  year: 2012,
+  hasCreditCookie: true,
+  _id: 5225e29a88d525cfde000002 }
+```
+
