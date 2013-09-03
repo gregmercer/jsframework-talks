@@ -4,7 +4,7 @@ backbone-talks
 Learning Backbone.js one step at a time.
 
 Installing node
-http://nodejs.org/
+http://nodejs.org/ 
 click on install button
 
 Creating your first app: firstapp/app-1.js
@@ -31,7 +31,7 @@ http://localhost:4730
 Basic routing, data: server-talks/app-2.js
 create app-2.js
 run your node server
-node app-2.js 
+node app-2.js
 
 New route for random quote: server-talks/app-3.js
 create app-3.js
@@ -73,3 +73,4 @@ Change location to: 'localhost:4730/quote/2'
 Change method to: 'DELETE'
 click send… should see 200 OK
 check if a quote was deleted (should only have 3 quotes now)
+
