@@ -3,7 +3,7 @@ jsframework-talks
 
 Learning Nodejs, Express and Backbone.js one step at a time.
 
-Installing node
+Installing Nodejs
 ```
 http://nodejs.org/ 
 click on install button
