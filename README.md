@@ -1,7 +1,7 @@
-backbone-talks
+jsframework-talks
 ==============
 
-Learning Backbone.js one step at a time.
+Learning Nodejs, Express and Backbone.js one step at a time.
 
 Installing node
 ```
