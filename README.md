@@ -120,7 +120,7 @@ MongoDB shell version: 2.4.6
 connecting to: test
 ```
 
-mongo shell commands - where quotes is a collection in the test db
+mongo shell commands - where quotes is a collection in the test database
 ```
 > show databases
 > use test
