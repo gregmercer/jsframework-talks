@@ -276,6 +276,8 @@ check if new quote was added
 http://localhost:4730/
 ```
 
+#### Next, we move onto the client side of things, and make our first Backbone app
+
 todo: Notes for client-talk section coming soon.
 
 
