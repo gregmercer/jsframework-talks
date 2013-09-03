@@ -212,3 +212,73 @@ it should show this:
 ]
 ```
 
+Adding the get by id, post, and delete by id operations: server-talks/app-9.js
+```
+create app-9.js
+run your node server
+node app-9.js
+open your browser to:
+http://localhost:4730/
+it should show this: 
+[
+  {
+    "author": "Audrey Hepburn",
+    "text": "Nothing is impossible, the word itself says 'I'm possible'!",
+    "year": 2011,
+    "hasCreditCookie": true,
+    "_id": "5225e29a88d525cfde000001",
+    "__v": 0
+  },
+  {
+    "author": "Walt Disney",
+    "text": "You may not realize it when it happens, but a kick in the teeth may be the best thing in the world for you",
+    "year": 2012,
+    "hasCreditCookie": true,
+    "_id": "5225e29a88d525cfde000002",
+    "__v": 0
+  }
+]
+to test the get by id, copy one of the ids shown in your browser
+on my system it happens to have this id: 5225e29a88d525cfde000002
+your id will most likely be different
+open your browser to:
+http://localhost:4730/quote/5225e29a88d525cfde000002
+it should show this: 
+[
+  {
+    "author": "Walt Disney",
+    "text": "You may not realize it when it happens, but a kick in the teeth may be the best thing in the world for you",
+    "year": 2012,
+    "hasCreditCookie": true,
+    "_id": "5225e29a88d525cfde000002",
+    "__v": 0
+  }
+]
+to test the delete by id, copy one of the ids shown in your browser
+I'll use this id again: 5225e29a88d525cfde000002
+run chrome extension 'Dev Http Client'
+Change request select to: 'HTTP'
+Change location to: 'localhost:4730/quote/5225e29a88d525cfde000002'
+Change method to: 'DELETE'
+click send… should see 200 OK
+check if a quote was deleted (should only have 1 quote now)
+to test the post
+run chrome extension 'Dev Http Client'
+Change request select to: 'HTTP'
+Change location to: 'localhost:4730/quote'
+Change method to: 'POST'
+Add headers: 'Content-Type' : 'application/json' with body:
+{ "author" : "GBear", "text" : "Node node node", "year": 2013 }
+click send… should see 200 OK (see app-5.png)
+check if new quote was added
+http://localhost:4730/
+```
+
+
+
+
+
+
+
+
+
