@@ -178,5 +178,11 @@ gregs-mac:server-talks$ node app-7.js
   year: 2012,
   hasCreditCookie: true,
   _id: 5225e29a88d525cfde000002 }
+open your browser to:
+http://localhost:4730/
+it should show this: 
+"hello from app-7.js"
 ```
+
+
 
