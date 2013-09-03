@@ -1,13 +1,15 @@
 jsframework-talks
 ==============
 
-Learning Nodejs, Express and Backbone.js one step at a time.
+#### Learning Nodejs, Express and Backbone.js one step at a time.
 
 Installing Nodejs
 ```
 http://nodejs.org/ 
 click on install button
 ```
+
+#### First, we start with the server side of things, and make our first Nodejs/Express app
 
 Creating your first app: firstapp/app-1.js 
 ```
