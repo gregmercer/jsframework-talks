@@ -97,7 +97,7 @@ brew doctor
 Installing mongodb with Brew command
 ```
 brew install mongodb
-<when brew ends with will tell you the directory where mondodb was installed>
+<when brew ends it will tell you the directory where mondodb was installed>
 cd /usr/local/Cellar/mongodb/2.4.6 
 launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
