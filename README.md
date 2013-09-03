@@ -11,7 +11,7 @@ click on install button
 
 #### First, we start with the server side of things, and make our first Nodejs/Express app
 
-Creating your first app: firstapp/app-1.js 
+Creating our first app: firstapp/app-1.js 
 ```
 mkdir firstapp
 cd firstapp
