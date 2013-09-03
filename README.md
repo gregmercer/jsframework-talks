@@ -274,6 +274,8 @@ check if new quote was added
 http://localhost:4730/
 ```
 
+todo: Notes for client-talk section coming soon.
+
 
 
 
