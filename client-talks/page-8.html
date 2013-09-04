@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>page-6.html</title>
+  <title>page-8.html</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
   
   <script type="text/template" id="our-template">
-    <a href="#page2/88" class="btn btn-primary">page2</a>
+    <a href="#addQuote" class="btn btn-primary">Add Quote</a>
     <p>hello world from ourView with the quotes list.</p>
     <% _.each(quotes, function(quoteData) { %>
         <blockquote>
@@ -28,24 +28,49 @@
     <% }); %>     
   </script>
 
-  <script type="text/template" id="page2-template">
+  <script type="text/template" id="newquote-template">
     <a href="#" class="btn btn-primary">Home</a>
-    <ul> 
-      <li>
-        hello world from page2View using a template. stuff id: <%= stuff.id %>
-      </li>
-    </ul>
+    <p>hello world from newQuoteView using a template.</p>
+    <form class="edit-quote-form">
+      <legend>New Quote</legend>
+        <label>Author</label>
+        <input name="author" type="text" value="">
+        <label>Body</label>
+        <textarea name="text" class="input-xxlarge" rows="6" value="" placeholder=""></textarea>
+        <label>Year</label>
+        <input name="year" type="text" value=""> 
+        <input type="hidden" name="hasCreditCookie" value="true" />       
+        <hr />
+       <button type="cancel" class="btn cancel">Cancel</button>
+       <button type="submit" class="btn">Create</button>
+    </form>    
   </script>
 
   <script>
 
-    // Helper function 
+    // Helper functions 
 
     function htmlEncode(value){
       return $('<div/>').text(value).html();
     }
 
-    // Prefiler all ajax calls with this
+    $.fn.serializeObject = function() {
+      var o = {};
+      var a = this.serializeArray();
+      $.each(a, function() {
+          if (o[this.name] !== undefined) {
+              if (!o[this.name].push) {
+                  o[this.name] = [o[this.name]];
+              }
+              o[this.name].push(this.value || '');
+          } else {
+              o[this.name] = this.value || '';
+          }
+      });
+      return o;
+    };    
+
+    // Prefilter for all ajax calls
 
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.url = 'http://quotes-server.herokuapp.com' + options.url;
@@ -56,6 +81,12 @@
     var QuotesCollection = Backbone.Collection.extend({
       url: '/quotes'
     }); 
+
+    // Define Model: Quote
+
+    var Quote = Backbone.Model.extend({
+      urlRoot: '/quotes'
+    });    
 
     // Define View: OurView
 
@@ -82,27 +113,44 @@
 
     var ourView = new OurView();  
 
-    // Define View: Page2View
+    // Define View: NewQuoteView
 
-    var Page2View = Backbone.View.extend({
+    var NewQuoteView = Backbone.View.extend({
       el: '.page',
+      events: {
+        'submit .edit-quote-form': 'saveQuote',
+        'click .cancel': 'cancelQuote',
+      },     
+      saveQuote: function (ev) {
+        var quoteDetails = $(ev.currentTarget).serializeObject();
+        var quote = new Quote();
+        quote.save(quoteDetails, {
+          success: function (quote) {
+            router.navigate('', {trigger:true});
+          }
+        });
+        return false;
+      },    
+      cancelQuote: function (ev) {
+        router.navigate('', {trigger:true});
+        return false;
+      },     
       render: function (options) {
-        console.log('render for page2View');
-        console.log(options);
+        console.log('render for NewQuoteView');
         var that = this;
-        var template = _.template($('#page2-template').html(), {stuff: {id: options.id}});
+        var template = _.template($('#newquote-template').html());
         that.$el.html(template);        
-      }
+      }      
     });   
 
-    var page2View = new Page2View();     
+    var newQuoteView = new NewQuoteView();     
 
     // Router          
 
     var Router = Backbone.Router.extend({
       routes: {
         "": "home",
-        "page2/:id": "doPage2"
+        "addQuote": "newQuote",
       }
     });
 
@@ -113,10 +161,10 @@
       ourView.render();
     })    
 
-    router.on('route:doPage2', function(id) {
-      // render our view
-      console.log('route for page2 id = ' + id);
-      page2View.render({id: id});
+    router.on('route:newQuote', function(id) {
+      // render new quote view
+      console.log('route for addQuote');
+      newQuoteView.render({});
     })           
 
     Backbone.history.start();
