@@ -115,7 +115,7 @@ app.post('/quote', function(req, res) {
   , hasCreditCookie: true
   });
 
-  newQuote.save(function(err, thor) {
+  newQuote.save(function(err, quote) {
     if (err) return console.error(err);
     console.dir(newQuote);
   });
