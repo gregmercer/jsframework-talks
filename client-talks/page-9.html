@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>page-8.html</title>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Quotes Manager</h1>
+    <hr />
+    <div class="page"></div>
+  </div>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+  
+  <script type="text/template" id="our-template">
+    <a href="#addQuote" class="btn btn-primary">Add Quote</a> 
+    <hr /> 
+    <% _.each(quotes, function(quote) { %>
+        <a href="#editQuote/<%= htmlEncode(quote.get('_id')) %>">
+        <blockquote>
+          <p><%= htmlEncode(quote.get('text')) %></p>
+          <small><%= htmlEncode(quote.get('author')) %></small>
+        </blockquote>
+        </a>
+    <% }); %>     
+  </script>
+
+  <script type="text/template" id="quote-form-template">
+    <form class="edit-quote-form">
+      <legend><%= quote ? 'Edit' : 'New' %> Quote</legend>
+      <label>Author</label>
+      <input name="author" type="text" value="<%= quote ? quote.get('author') : '' %>">
+      <label>Body</label>
+      <textarea name="text" class="input-xxlarge" rows="6" value="" placeholder=""><%= quote ? quote.get('text') : '' %></textarea>
+      <label>Year</label>
+      <input name="year" type="text" value="<%= quote ? quote.get('year') : '' %>"> 
+      <input type="hidden" name="hasCreditCookie" value="<%= quote ? quote.get('hasCreditCookie') : '' %>" />
+      <% if(quote) { %>
+        <input type="hidden" name="id" value="<%= quote.id %>" />
+      <% }; %>     
+      <hr />
+      <button type="cancel" class="btn cancel">Cancel</button>
+      <button type="submit" class="btn btn-success"><%= quote ? 'Update' : 'Create' %></button>
+      <% if(quote) { %>
+        <button data-user-id="<%= quote.id %>" class="btn btn-danger delete">Delete</button>
+      <% }; %>           
+    </form>    
+  </script>
+
+  <script>
+
+    // Helper functions 
+
+    function htmlEncode(value){
+      return $('<div/>').text(value).html();
+    }
+
+    $.fn.serializeObject = function() {
+      var o = {};
+      var a = this.serializeArray();
+      $.each(a, function() {
+          if (o[this.name] !== undefined) {
+              if (!o[this.name].push) {
+                  o[this.name] = [o[this.name]];
+              }
+              o[this.name].push(this.value || '');
+          } else {
+              o[this.name] = this.value || '';
+          }
+      });
+      return o;
+    };    
+
+    // Prefilter for all ajax calls
+
+    $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+      options.url = 'http://quotes-server.herokuapp.com' + options.url;
+    });  
+
+    // Define Collection: QuotesCollection
+
+    var QuotesCollection = Backbone.Collection.extend({
+      url: '/quotes'
+    }); 
+
+    // Define Model: Quote
+
+    var Quote = Backbone.Model.extend({
+      urlRoot: '/quotes'
+    });    
+
+    // Define View: OurView
+
+    var OurView = Backbone.View.extend({
+      el: '.page',
+      render: function (options) {
+        console.log('render for ourView');
+        var that = this;
+        var quotes = new QuotesCollection();
+        quotes.fetch({
+          // btw.. here's how you would pass query params 
+          // checkout the chrome javascript console network tab and you'll see 
+          // this being passed: '?title=developer'
+          data: {
+            "title" : "developer",
+          },            
+          success: function (quotesCollection) {
+            var template = _.template($('#our-template').html(), {quotes: quotes.models});
+            that.$el.html(template);               
+          }
+        });
+      }
+    });   
+
+    var ourView = new OurView();  
+
+    // Define View: NewQuoteView
+
+    var NewQuoteView = Backbone.View.extend({
+      el: '.page',
+      events: {
+        'submit .edit-quote-form': 'saveQuote',
+        'click .cancel': 'cancelQuote',
+        'click .delete': 'deleteQuote',
+      },     
+      saveQuote: function (ev) {
+        console.log('in saveQuote');
+        var quoteDetails = $(ev.currentTarget).serializeObject();
+        var quote = new Quote();
+        quote.save(quoteDetails, {
+          success: function (quote) {
+            router.navigate('', {trigger:true});
+          }
+        });
+        return false;
+      },  
+      deleteQuote: function (ev) {
+        console.log('in deleteQuote');
+        this.quote.destroy({
+          success: function () {
+            console.log('destroyed');
+            router.navigate('', {trigger:true});
+          }
+        });
+        return false;
+      },           
+      cancelQuote: function (ev) {
+        console.log('in cancelQuote');
+        router.navigate('', {trigger:true});
+        return false;
+      },     
+      render: function (options) {
+        console.log('render for NewQuoteView');
+        var that = this; 
+        if(options.id) {
+          that.quote = new Quote({id: options.id});
+          that.quote.fetch({
+            success: function (quote) {    
+              var template = _.template($('#quote-form-template').html(), {quote: quote});
+              that.$el.html(template);
+            }
+          })
+        } else {
+          var template = _.template($('#quote-form-template').html(), {quote: null});
+          that.$el.html(template);
+        }              
+      }      
+    });   
+
+    var newQuoteView = new NewQuoteView();     
+
+    // Router          
+
+    var Router = Backbone.Router.extend({
+      routes: {
+        "": "home",
+        "addQuote": "newQuote",
+        "editQuote/:id": "editQuote",
+      }
+    });
+
+    var router = new Router;
+
+    router.on('route:home', function() {
+      // render our view
+      ourView.render();
+    });    
+
+    router.on('route:newQuote', function() {
+      // render new quote view
+      console.log('route for addQuote');
+      newQuoteView.render({});
+    });     
+
+    router.on('route:editQuote', function(id) {
+      // render new quote view
+      console.log('route for addQuote');
+      newQuoteView.render({id: id});
+    });           
+
+    Backbone.history.start();
+
+  </script>
+
+</body>
+</html> 
