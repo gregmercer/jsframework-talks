@@ -45,7 +45,7 @@
       return $('<div/>').text(value).html();
     }
 
-    // Prefiler all ajax calls with this
+    // Prefilter all ajax calls with this
 
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.url = 'http://quotes-server.herokuapp.com' + options.url;
